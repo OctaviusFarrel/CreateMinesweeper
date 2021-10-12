@@ -5,22 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-
+    <script src="script.js" defer></script>
     <title>Minesweeper</title>
   </head>
   <body>
     <header>
-      <div class="container-flex">
-        <div class="div1">
-          <p>Dificulty</p>
-          <p class="bomb-navbar">00</p>
-          <p class="timer-navbar">000</p>
-          <p>Sound</p>
-        </div>
-      </div>
+        <select name="difficulty" id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+            <div class="detail-game">
+              <p id="bomb">00</p>
+              <p id="timer">000</p>
+            </div>
+        <p>Sound</p>
     </header>
     <main>
-      <button></button>
     </main>
   </body>
 </html>

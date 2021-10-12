@@ -6,35 +6,58 @@ const difficulties = [
     [24, 20, 99]
 ];
 
-const [widthTiles, heightTiles, manyMines] = difficulties[Math.floor(Math.random()*3)];
+function initialize(difficulty) {
+    tiles.forEach(element => {
+        element.remove();
+    });
 
-const largeTiles = widthTiles * heightTiles;
+    const [widthTiles, heightTiles, manyMines] = difficulties[difficulty];
 
-const baseElement = document.createElement('button');
-const clickEvent = (e) => {
-    e.target.remove();  
-};
+    const main = document.getElementsByTagName('main')[0];
+    main.style.gridTemplateColumns = `repeat(${widthTiles}, 1fr)`;
 
-const gameOverEvent = (e) => {
-    console.log("Game Over");
-};
+    const largeTiles = widthTiles * heightTiles;
 
-for (let index = 0; index < largeTiles; index++) {
-    const currentElement = baseElement.cloneNode(false);
-    currentElement.onclick = clickEvent;
-    document.getElementsByTagName('body')[0].appendChild(currentElement);
-    tiles.push(currentElement);
+    const baseElement = document.createElement('button');
+    const clickEvent = (e) => {
+        e.target.innerHTML = ":)";
+    };
+
+    const gameOverEvent = (e) => {
+        e.target.innerHTML = ":(";
+    };
+
+    for (let index = 0; index < largeTiles; index++) {
+        const currentElement = baseElement.cloneNode(false);
+        currentElement.onclick = clickEvent;
+        main.appendChild(currentElement);
+        tiles.push(currentElement);
+    }
+
+    let mineTiles = {};
+
+    for (let i = 0; i < manyMines; ) {
+        let number = Math.floor(Math.random()*largeTiles);
+        if (mineTiles[number]) continue;
+        let tile = tiles[number];
+        mineTiles[number] = tile;
+        tile.onclick = gameOverEvent;
+        i++;
+    }
 }
 
-let mineTiles = {};
+initialize(0);
 
-for (let i = 0; i < manyMines; ) {
-    let number = Math.floor(Math.random()*largeTiles);
-    if (mineTiles[number]) continue;
-    let tile = tiles[number];
-    mineTiles[number] = tile;
-    tile.onclick = gameOverEvent;
-    i++;
+document.getElementById('difficulty').onchange = e => {
+    initialize(e.target.selectedIndex);
 }
 
-console.log(mineTiles);
+let options = document.getElementsByTagName('option');
+
+for (let index = 0; index < options.length; index++) {
+    options[index].onclick = e => {
+        initialize(index);
+        console.log(`Clicked at index: ${index}`);
+    }
+}
+
